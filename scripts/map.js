@@ -110,25 +110,25 @@ $(window).on('load', function() {
       ? [parseInt(iconSize.split('x')[0]), parseInt(iconSize.split('x')[1])]
       : [32, 32];
 
-      var anchor = [size[0] / 2, size[1]];
 
-      var icon = (point['Marker Icon'].indexOf('.') > 0)
-        ? L.icon({
-          iconUrl: point['Marker Icon'],
-          iconSize: size,
-          iconAnchor: anchor
-        })
-        : createMarkerIcon(point['Marker Icon'],
+      var icon = createMarkerIcon(point['Marker Icon'],
           'fa',
           point['Marker Color'].toLowerCase(),
           point['Icon Color']
         );
 
       if (point.Latitude !== '' && point.Longitude !== '') {
-        var marker = L.marker([point.Latitude, point.Longitude], {icon: icon})
-          .bindPopup("<b>" + point['Name'] + '</b><br>' +
-          (point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') +
-          point['Description']);
+        var marker = L.marker([point.Latitude, point.Longitude], {icon: icon});
+        var marker = new L.RegularPolygonMarker([point.Latitude, point.Longitude],
+                                                   {numberOfSides:  50 ,
+                                                    weight: 2,
+                                                    color: point['Marker Color'],
+                                                    fillOpacity: 0.8,
+                                                    imageCircleUrl: point['Marker Icon'],
+                                                    radius:  point['Custom Size'],
+                                                   }) ;
+        
+          marker.bindPopup("<b>" + point['Name'] + '</b><br>' +(point['Image'] ? ('<img src="' + point['Image'] + '"><br>') : '') + point['Description']);
 
         if (layers !== undefined && layers.length !== 1) {
           marker.addTo(layers[point.Group]);
