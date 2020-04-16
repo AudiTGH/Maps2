@@ -118,7 +118,7 @@ $(window).on('load', function() {
         );
 
       if (point.Latitude !== '' && point.Longitude !== '') {
-        var marker = L.marker([point.Latitude, point.Longitude], {icon: icon});
+        //var marker = L.marker([point.Latitude, point.Longitude], {icon: icon});
         var marker = new L.RegularPolygonMarker([point.Latitude, point.Longitude],
                                                    {numberOfSides:  50 ,
                                                     weight: 2,
